@@ -1,0 +1,42 @@
+@startuml Location Module
+
+class Location {
+  - locationId: Integer
+  - name: String
+  - description: String
+  - cityVillage: String
+  - country: String
+  - postalCode: String
+}
+
+interface LocationService {
+  + saveLocation(Location): Location
+  + getLocation(Integer): Location
+  + getLocation(String): Location
+  + getAllLocations(): List<Location>
+  + retireLocation(Location, String): Location
+  + purgeLocation(Location): void
+}
+
+class LocationServiceImpl {
+  - dao: LocationDAO
+  + saveLocation(Location): Location
+  + getLocation(Integer): Location
+  + getAllLocations(): List<Location>
+}
+
+interface LocationDAO {
+  + saveLocation(Location): Location
+  + getLocation(Integer): Location
+  + getAllLocations(boolean): List<Location>
+  + deleteLocation(Location): void
+}
+
+LocationService <|.. LocationServiceImpl : implements
+
+LocationServiceImpl --> LocationDAO : uses
+
+LocationService ..> Location : manages
+LocationDAO ..> Location : persists
+
+@enduml
